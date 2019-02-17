@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
 import PubSub from 'pubsub-js';
 import { CANAL_TIME_LINE } from '../componentes/Timeline';
+export const REINICIA_LISTAGEM = -1;
 
 export default class Header extends Component {
 
     pesquisa = (event) => {
         event.preventDefault();
 
-        if (this.loginPesquisado.value.length === 0) return;
+        if (this.loginPesquisado.value.length === 0){
+            
+            PubSub.publish(CANAL_TIME_LINE, REINICIA_LISTAGEM );
+            return
+        }
 
         fetch(`http://localhost:8080/api/public/fotos/${this.loginPesquisado.value}`)
             .then(response => response.json())
@@ -38,9 +43,9 @@ export default class Header extends Component {
                 <nav>
                     <ul className="header-nav">
                         <li className="header-nav-item">
-                            <a href="/">
-                                ♡
-                </a>
+                            <a href="/logout">
+                                ♡ 
+                            </a>
                         </li>
                     </ul>
                 </nav>

@@ -3,10 +3,12 @@ import FotoItem from '../componentes/Foto';
 import Header from './Header';
 import PubSub from 'pubsub-js';
 import { CSSTransitionGroup } from 'react-transition-group'
+import { REINICIA_LISTAGEM } from './Header';
 
 export const CANAL_TIME_LINE = "timeline";
 export const CANAL_ATUALIZA_LIKER = 'atualiza-liker';
 export const CANAL_NOVO_COMENTARIO = 'novos-comentarios';
+
 
 export default class Timeline extends Component {
 
@@ -28,7 +30,13 @@ export default class Timeline extends Component {
     componentWillMount() {
         
         PubSub.subscribe(CANAL_TIME_LINE, (topico, fotos) => {
-            this.setState({ fotos })
+
+            if (fotos === REINICIA_LISTAGEM){
+               this.carregaFotos();
+
+            }else{
+                this.setState({ fotos })
+            }
         })
 
         PubSub.subscribe(CANAL_ATUALIZA_LIKER, (topico, infoLiker) => {
