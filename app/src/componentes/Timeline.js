@@ -2,14 +2,15 @@ import React, { Component } from 'react';
 import FotoItem from '../componentes/Foto';
 import Header from './Header';
 import PubSub from 'pubsub-js';
+import { CSSTransitionGroup   } from 'react-transition-group'
 
-export const CANAL_TIME_LINE ="timeline";
+export const CANAL_TIME_LINE = "timeline";
 
 export default class Timeline extends Component {
 
     state = {
         fotos: [],
-        login : this.props.match.params.id
+        login: this.props.match.params.id
     }
     login = this.props.match.params.id;
 
@@ -22,9 +23,9 @@ export default class Timeline extends Component {
         this.carregaFotos();
     }
 
-    componentWillMount(){
+    componentWillMount() {
         PubSub.subscribe(CANAL_TIME_LINE, (topico, fotos) => {
-            this.setState({ fotos})
+            this.setState({ fotos })
         })
     }
 
@@ -36,7 +37,7 @@ export default class Timeline extends Component {
         else {
             urlPerfil = `http://localhost:8080/api/public/fotos/${this.login}`;
         }
-        
+
         fetch(urlPerfil)
             .then(response => response.json())
             .then(fotos => this.setState({ fotos }))
@@ -50,15 +51,19 @@ export default class Timeline extends Component {
             <div>
                 <Header />
                 <div className="fotos container">
-                    {
-                        this.state.fotos.map(foto =>
-                            <FotoItem key={foto.id} foto={foto} />
-                        )
-                    }
-
+                    <CSSTransitionGroup
+                        transitionEnterTimeout={500}
+                        transitionLeaveTimeout={300}
+                        transitionName="timeline"
+                        >
+                            {
+                                this.state.fotos.map(foto =>
+                                    <FotoItem key={foto.id} foto={foto} />
+                                )
+                            }
+                    </CSSTransitionGroup>
                 </div>
             </div>
         )
     }
-
 }
