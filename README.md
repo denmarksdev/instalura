@@ -8,10 +8,10 @@ Mini versão do **Instagram** com **React**
 
 # Uso
 
-1. Iniciar a API local Java com o comando `java -Dspring.datasource.password=suaSenha -jar instalura.jar` 
+1. Iniciar a **API local em Java** com o comando `java -Dspring.datasource.password=suaSenha -jar instalura.jar` 
 1. Carregar os dados da API para teste atráves da url `http://localhost:8080/gera/dados`
-1. Executar o script `instalura-scrip.sql` para correçao das imagens, pois a url não existe mais
-1. Dentro da pasta **App** executar o comando `npm i` para instalar a depências do React
+1. Executar o script `instalura-scrip.sql` para correçao das imagens, as urls das imagens não existem mais
+1. Dentro da pasta **App** executar o comando `npm i` para instalar as dependências do React
 1. Por fim executar o `comando npm start`
 
 # Screenshot
