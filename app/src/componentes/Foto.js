@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PubSub from 'pubsub-js';
-import Header from './Header';
 
 export default class Foto extends Component {
     render() {

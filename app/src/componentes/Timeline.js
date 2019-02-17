@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import FotoItem from '../componentes/Foto';
 import Header from './Header';
+import PubSub from 'pubsub-js';
+
+export const CANAL_TIME_LINE ="timeline";
 
 export default class Timeline extends Component {
 
@@ -17,6 +20,12 @@ export default class Timeline extends Component {
 
     componentDidMount() {
         this.carregaFotos();
+    }
+
+    componentWillMount(){
+        PubSub.subscribe(CANAL_TIME_LINE, (topico, fotos) => {
+            this.setState({ fotos})
+        })
     }
 
     carregaFotos() {
