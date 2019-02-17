@@ -1,32 +1,53 @@
 import React, { Component } from 'react';
 import FotoItem from '../componentes/Foto';
+import Header from './Header';
 
 export default class Timeline extends Component {
 
     state = {
-        fotos: []
+        fotos: [],
+        login : this.props.match.params.id
+    }
+    login = this.props.match.params.id;
+
+    componentWillReceiveProps(nextProps) {
+        this.login = nextProps.match.params.id;
+        this.carregaFotos();
     }
 
     componentDidMount() {
+        this.carregaFotos();
+    }
 
-        fetch(`http://localhost:8080/api/fotos?X-AUTH-TOKEN=${localStorage.getItem('auth-token')}`)
+    carregaFotos() {
+        let urlPerfil = "";
+        if (this.login === undefined) {
+            urlPerfil = `http://localhost:8080/api/fotos?X-AUTH-TOKEN=${localStorage.getItem('auth-token')}`;
+        }
+        else {
+            urlPerfil = `http://localhost:8080/api/public/fotos/${this.login}`;
+        }
+        
+        fetch(urlPerfil)
             .then(response => response.json())
             .then(fotos => this.setState({ fotos }))
             .catch(erros => {
                 console.log(erros);
-            })
+            });
     }
 
     render() {
-
         return (
-            <div className="fotos container">
-                {
-                    this.state.fotos.map(foto =>
-                        <FotoItem key={foto.id} foto={foto} />
-                    )
-                }
+            <div>
+                <Header />
+                <div className="fotos container">
+                    {
+                        this.state.fotos.map(foto =>
+                            <FotoItem key={foto.id} foto={foto} />
+                        )
+                    }
 
+                </div>
             </div>
         )
     }

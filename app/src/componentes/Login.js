@@ -5,26 +5,20 @@ export const PrivateRoute = ({ component: Component, ...rest }) => (
     <Route
         {...rest}
         render={props => {
-            return fakeAuth.autenticado() ?
-                (
-                    <Component {...props} />
-                )
-                :
-                (
-                    <Redirect
-                        to={{
-                            pathname: "/",
-                            state:
-                            { 
-                                from: props.location, msgErro: "Voce prescisa estar logado!"
-                                 + `[${props.location.pathname}]` 
-                             }
-                        }}
-                    />
-                )
-        }
 
-        }
+            const { params } = props.match;
+            if (params.id || fakeAuth.autenticado()) {
+                return <Component {...props} />
+            }
+
+            return <Redirect to={{ pathname: "/",state:
+                    {
+                        from: props.location, msgErro: "Voce prescisa estar logado!"
+                            + `[${props.location.pathname}]`
+                    }
+                }}
+            />
+        }}
     />
 );
 
@@ -39,9 +33,9 @@ const fakeAuth = {
 export default class Login extends Component {
 
     state = {
-        redirecionar : false,
-        msg: ( ( this.props.location.state && 
-                 this.props.location.state.msgErro) || "")
+        redirecionar: false,
+        msg: ((this.props.location.state &&
+            this.props.location.state.msgErro) || "")
     }
 
     logarForm = (event) => {
@@ -49,9 +43,10 @@ export default class Login extends Component {
 
         const requestInfo = {
             method: 'POST',
-            body: JSON.stringify({ 
-                login: this.login.value, 
-                senha: this.senha.value }),
+            body: JSON.stringify({
+                login: this.login.value,
+                senha: this.senha.value
+            }),
             headers: new Headers({
                 'Content-type': 'application/json'
             })
@@ -68,7 +63,7 @@ export default class Login extends Component {
             .then(token => {
                 localStorage.setItem('auth-token', token);
                 fakeAuth.isAuthenticated = true;
-                this.setState({redirecionar: true});
+                this.setState({ redirecionar: true });
             })
             .catch(error =>
                 this.setState({ msg: error.message })
@@ -77,7 +72,7 @@ export default class Login extends Component {
 
     render() {
 
-        if ( this.state.redirecionar ) {
+        if (this.state.redirecionar) {
             let path = "/timeline";
             if (this.props.location.state) {
                 path = this.props.location.state.from.pathname;
@@ -88,7 +83,7 @@ export default class Login extends Component {
         return (
             <div className="login-box">
                 <h1 className="header-logo">Instalura</h1>
-                <span>{ this.state.msg }</span>
+                <span>{this.state.msg}</span>
                 <form onSubmit={this.logarForm} >
                     <input type="text" placeholder="Usuário" ref={(input) => this.login = input} />
                     <input type="password" placeholder="Senha" ref={(input) => this.senha = input} />

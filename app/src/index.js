@@ -15,7 +15,7 @@ ReactDOM.render(
         <App>
             <Switch>
                 <Route exact path="/" component={Login} />
-                <PrivateRoute path="/timeline" component={Timeline} />
+                <PrivateRoute path="/timeline/:id?" component={Timeline} />
                 <Route logout path="/logout" component={Logout} />
             </Switch>
         </App>

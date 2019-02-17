@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 export default class Foto extends Component {
     render() {
@@ -13,17 +14,6 @@ export default class Foto extends Component {
     }
 }
 
-// "urlPerfil": "https://instagram.fcgh9-1.fna.fbcdn.net/vp/faf1cd7c1d50bbf382cad0d43df15a49/5B5FF9ED/t51.2885-19/s150x150/12599387_1591433254512484_973178862_a.jpg",
-//     "loginUsuario": "rafael",
-//     "horario": "16/02/2019 12:21",
-//     "urlFoto": "https://instagram.fcgh10-1.fna.fbcdn.net/t51.2885-15/e35/14482111_1635089460122802_8984023070045896704_n.jpg?ig_cache_key=MTM1MzEzNjM4NzAxMjIwODUyMw%3D%3D.2",
-//     "id": 3,
-//     "likeada": false,
-//     "likers": [],
-//     "comentarios": [],
-//     "comentario": "comentario da foto"
-
-
 class FotoHeader extends Component {
 
     render() {
@@ -32,9 +22,9 @@ class FotoHeader extends Component {
                 <figure className="foto-usuario">
                     <img src={this.props.foto.urlFoto} alt="foto do usuario" />
                     <figcaption className="foto-usuario">
-                        <a href="#">
+                        <Link to={`/timeline/${this.props.foto.loginUsuario}`}>
                             {this.props.foto.loginUsuario}
-                        </a>
+                        </Link>
                     </figcaption>
                 </figure>
                 <time className="foto-data"> {this.props.foto.horario}</time>
@@ -53,25 +43,26 @@ class FotoInfo extends Component {
                 <div className="foto-info-likes">
                     {
                         this.props.foto.likers.map(liker =>
-                            <a key ={ liker.login }  href="#">{liker.login},</a>
+                            <Link key={liker.login}  to={`/timeline/${liker.login}`}>{liker.login},</Link>
                         )
                     }
                     curtiram
             </div>
-            <p className="foto-info-legenda">
-                <a className="foto-info-autor">autor </a>
-                  {this.props.foto.comentario}
-            </p>
-             <ul className="foto-info-comentarios">
-                {
-                    this.props.foto.comentarios.map(comentario =>
-                         <li className="comentario">
-                             <a className="foto-info-autor"> { comentario.login } </a>
-                               { comentario.texto }
-                          </li>
-                    )
-                }
-             </ul>
+                <p className="foto-info-legenda">
+                    <a className="foto-info-autor">autor </a>
+                    {this.props.foto.comentario}
+                </p>
+                <ul className="foto-info-comentarios">
+                    {
+                        this.props.foto.comentarios.map(comentario =>
+                            <li className="comentario">
+                                <Link className="foto-info-autor" to={`/timeline/${comentario.login}`} >
+                                    {comentario.texto}
+                                </Link>
+                            </li>
+                        )
+                    }
+                </ul>
             </div>
         )
     }
