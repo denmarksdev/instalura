@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PubSub from 'pubsub-js';
 import { CANAL_TIME_LINE } from '../componentes/Timeline';
-import  { CSSTransition   } from 'react-transition-group'
 
 export default class Header extends Component {
 
@@ -39,7 +38,7 @@ export default class Header extends Component {
                 <nav>
                     <ul className="header-nav">
                         <li className="header-nav-item">
-                            <a href="#">
+                            <a href="/">
                                 ♡
                 </a>
                         </li>

@@ -5,7 +5,7 @@ import './css/login.css';
 import './css/reset.css';
 import './css/timeline.css';
 import * as serviceWorker from './serviceWorker';
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Login, { PrivateRoute } from './componentes/Login';
 import Timeline from './componentes/Timeline';
 import Logout from './componentes/Logout';
