@@ -2,12 +2,8 @@ import React, { Component } from 'react';
 import FotoItem from '../componentes/Foto';
 import Header from './Header';
 import { CSSTransitionGroup } from 'react-transition-group'
-import {
-    CANAL_ATUALIZA_LIKER,
-    REINICIA_LISTAGEM_FOTOS,
-    CANAL_TIME_LINE
-} from '../shared/Constantes';
-
+import { REINICIA_LISTAGEM_FOTOS} from '../shared/Constantes';
+import  TimeLineApi from '../api/TimelineApi'
 
 export const CANAL_NOVO_COMENTARIO = 'novos-comentarios';
 
@@ -16,9 +12,7 @@ export default class Timeline extends Component {
     state = {
         fotos: [],
     }
-
     login = this.props.login;
-    
 
     componentWillReceiveProps(nextProps) {
         this.login = nextProps.login;
@@ -30,7 +24,8 @@ export default class Timeline extends Component {
     }
 
     componentWillMount() {
-        this.props.store.subscribe(fotos => {
+        this.props.store.subscribe( () => {
+            const fotos = this.props.store.getState();
             if (fotos === REINICIA_LISTAGEM_FOTOS) {
                 this.carregaFotos();
             } else {
@@ -47,16 +42,15 @@ export default class Timeline extends Component {
         else {
             urlPerfil = `http://localhost:8080/api/public/fotos/${this.login}`;
         }
-
-        this.props.store.lista(urlPerfil);
+        this.props.store.dispatch(TimeLineApi.lista(urlPerfil));
     }
 
     like = (fotoId) => {
-        this.props.store.like(fotoId);
+        this.props.store.dispatch(TimeLineApi.like(fotoId));
     }
 
     comenta = (fotoId, comentario) => {
-        this.props.store.comenta(fotoId, comentario);
+        this.props.store.dispatch(TimeLineApi.comenta(fotoId,comentario));
     }
 
     render() {
