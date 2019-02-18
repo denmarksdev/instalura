@@ -7,18 +7,15 @@ import './css/timeline.css';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Login, { PrivateRoute } from './componentes/Login';
-import Timeline from './componentes/Timeline';
 import Logout from './componentes/Logout';
 
 ReactDOM.render(
     (<Router  >
-        <App>
             <Switch>
                 <Route exact path="/" component={Login} />
-                <PrivateRoute path="/timeline/:id?" component={Timeline} />
+                <PrivateRoute path="/timeline/:id?" component={App} />
                 <Route logout path="/logout" component={Logout} />
             </Switch>
-        </App>
     </Router>)
     , document.getElementById('root'));
 

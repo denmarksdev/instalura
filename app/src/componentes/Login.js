@@ -6,6 +6,8 @@ export const PrivateRoute = ({ component: Component, ...rest }) => (
         {...rest}
         render={props => {
 
+            console.log(props)
+
             const { params } = props.match;
             if (params.id || fakeAuth.autenticado()) {
                 return <Component {...props} />

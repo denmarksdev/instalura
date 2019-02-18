@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import PubSub from 'pubsub-js';
-import { CANAL_TIME_LINE } from '../componentes/Timeline';
-export const REINICIA_LISTAGEM = -1;
+import {
+    REINICIA_LISTAGEM_FOTOS,
+    CANAL_TIME_LINE
+} from '../shared/Constantes';
 
 export default class Header extends Component {
 
@@ -9,8 +11,7 @@ export default class Header extends Component {
         event.preventDefault();
 
         if (this.loginPesquisado.value.length === 0){
-            
-            PubSub.publish(CANAL_TIME_LINE, REINICIA_LISTAGEM );
+            PubSub.publish(CANAL_TIME_LINE, REINICIA_LISTAGEM_FOTOS );
             return
         }
 
@@ -38,8 +39,6 @@ export default class Header extends Component {
                     <input type="text" name="search" placeholder="Pesquisa" className="header-busca-campo" ref={input => this.loginPesquisado = input} />
                     <input type="submit" value="Buscar" className="header-busca-submit" />
                 </form>
-
-
                 <nav>
                     <ul className="header-nav">
                         <li className="header-nav-item">
