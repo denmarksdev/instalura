@@ -6,8 +6,6 @@ export const PrivateRoute = ({ component: Component, ...rest }) => (
         {...rest}
         render={props => {
 
-            console.log(props)
-
             const { params } = props.match;
             if (params.id || fakeAuth.autenticado()) {
                 return <Component {...props} />
@@ -35,7 +33,7 @@ const fakeAuth = {
 export default class Login extends Component {
 
     state = {
-        redirecionar: false,
+        redirecionar: fakeAuth.autenticado(),
         msg: ((this.props.location.state &&
             this.props.location.state.msgErro) || "")
     }
