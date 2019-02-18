@@ -14,6 +14,11 @@ Mini versão do **Instagram** com **React**
 1. Dentro da pasta **App** executar o comando `npm i` para instalar as dependências do React
 1. Por fim executar o `comando npm start`
 
+### Senhas dos usuários
+- alots 123456
+- vitor 123456
+- rafael 123456
+
 # Screenshot
 
  ![](https://github.com/denmarksdev/instalura/blob/master/screenshot.JPG?raw=true "Instalura")
