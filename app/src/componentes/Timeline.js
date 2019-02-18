@@ -12,6 +12,9 @@ export default class Timeline extends Component {
     login = this.props.login;
 
     componentWillReceiveProps(nextProps) {
+
+        if (nextProps.login === this.login) return;
+
         this.login = nextProps.login;
         this.carregaFotos();
     }
@@ -48,6 +51,9 @@ export default class Timeline extends Component {
     }
 
     render() {
+
+        console.log("render");
+
         return (
             <div>
                 <div className="fotos container">
@@ -71,3 +77,27 @@ export default class Timeline extends Component {
         )
     }
 }
+
+// TODO: Implementar Connect, estão apresentando um erro, devido a atualização da lib. 
+// const mapStateToProps = state =>  {
+//     return{fotos: state.timeline}
+// };
+
+// const mapDispatchToProps = dispatch => {
+//     return {
+//         like: (fotoId) =>{
+//             dispatch(TimeLineApi.like(fotoId));
+//         },
+//         comenta: (fotoId, comentario) => {
+//             dispatch(TimeLineApi.comenta(fotoId,comentario));
+//         },
+//         lista: (urlPerfil) =>{
+//             dispatch(TimeLineApi.lista(urlPerfil));
+//         }
+//     }
+// }
+
+// export default connect(
+//     mapStateToProps, 
+//     mapDispatchToProps,
+//     )(Timeline)
