@@ -1,3 +1,11 @@
+import {
+    listagemAction,
+    comentarioAction,
+    likeAction,
+    alertAction
+} from '../action/actionCreators';
+
+
 export default class TimelineApi {
 
     static like(fotoId) {
@@ -13,7 +21,7 @@ export default class TimelineApi {
                     }
                 })
                 .then(liker => {
-                    dispatch({ type: 'LIKE', fotoId, liker })
+                    dispatch(likeAction(fotoId, liker));
                     return liker;
                 });
         }
@@ -24,7 +32,8 @@ export default class TimelineApi {
             fetch(urlPerfil)
                 .then(response => response.json())
                 .then(fotos => {
-                    dispatch({ type: 'LISTAGEM', fotos })
+                    dispatch(listagemAction(fotos))
+                    dispatch(alertAction(''));
                     return fotos;
                 })
                 .catch(erros => {
@@ -54,9 +63,36 @@ export default class TimelineApi {
                     }
                 })
                 .then(novoComentario => {
-                    dispatch({ type: 'COMENTARIO', fotoId, novoComentario })
+                    dispatch(comentarioAction(fotoId, novoComentario));
+                    return novoComentario;
                 })
                 .catch(error => console.log(error.message))
         }
     }
+
+    static pesquisa(loginTexto) {
+        return dispatcher => {
+
+            fetch(`http://localhost:8080/api/public/fotos/${loginTexto}`)
+                .then(response => response.json())
+                .then(fotos => {
+
+                    if (fotos.length === 0){
+                        dispatcher(alertAction('usuario não encontrado'))
+                    } else {
+                        dispatcher(alertAction(''))
+                    }
+
+                    dispatcher(listagemAction(fotos))
+                    return fotos;
+                })
+                .catch(erro => console.log(erro));
+        }
+    }
+
+    // TODO: Limpar listagem
+    // if (this.loginPesquisado.value.length === 0){
+    //     PubSub.publish(CANAL_TIME_LINE, REINICIA_LISTAGEM_FOTOS );
+    //     return
+    // }
 }

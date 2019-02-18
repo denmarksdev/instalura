@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import FotoItem from '../componentes/Foto';
-import Header from './Header';
 import { CSSTransitionGroup } from 'react-transition-group'
-import { REINICIA_LISTAGEM_FOTOS} from '../shared/Constantes';
+import { URL_FOTO_USUARIO } from '../shared/Constantes';
 import  TimeLineApi from '../api/TimelineApi'
-
-export const CANAL_NOVO_COMENTARIO = 'novos-comentarios';
 
 export default class Timeline extends Component {
 
@@ -24,20 +21,17 @@ export default class Timeline extends Component {
     }
 
     componentWillMount() {
+
         this.props.store.subscribe( () => {
-            const fotos = this.props.store.getState();
-            if (fotos === REINICIA_LISTAGEM_FOTOS) {
-                this.carregaFotos();
-            } else {
-                this.setState({ fotos })
-            }
-        })
+            const fotos = this.props.store.getState().timeline;
+                this.setState({ fotos });
+        });
     }
 
     carregaFotos() {
         let urlPerfil = "";
         if (this.login === undefined) {
-            urlPerfil = `http://localhost:8080/api/fotos?X-AUTH-TOKEN=${localStorage.getItem('auth-token')}`;
+            urlPerfil = URL_FOTO_USUARIO ;
         }
         else {
             urlPerfil = `http://localhost:8080/api/public/fotos/${this.login}`;
@@ -56,7 +50,6 @@ export default class Timeline extends Component {
     render() {
         return (
             <div>
-                <Header />
                 <div className="fotos container">
                     <CSSTransitionGroup
                         transitionEnterTimeout={500}
